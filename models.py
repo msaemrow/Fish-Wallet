@@ -50,6 +50,17 @@ class User(db.Model):
         default=False
     )
 
+    @classmethod
+    def signup(cls, username, email, password):
+        
+        user = User(username=username,
+                    email=email,
+                    password=password,
+                    fish_catches=0,
+                    is_admin=False)
+        db.session.add(user)
+        return user
+    
 class Lake(db.Model):
     """Model for a lake that a fish is caught from"""
     
@@ -156,9 +167,9 @@ class FishCatch(db.Model):
         default=False,
     )
 
-    species= db.relationship('FishSpecies', backref=db.backref('fish_catches'))
-    user = db.relationship('User', backref=db.backref('fish_catches'))
-    lake = db.relationship('Lake', backref=db.backref('fish_catches'))
+    species= db.relationship('FishSpecies', backref=db.backref('species_fish_catches'))
+    user = db.relationship('User', backref=db.backref('uesr_fish_catches'))
+    lake = db.relationship('Lake', backref=db.backref('lake_fish_catches'))
 
 class MasterAnglerReq(db.Model):
     """Model to display master angler length requirements for each species"""
@@ -173,6 +184,11 @@ class MasterAnglerReq(db.Model):
     species_id = db.Column(
         db.Integer,
         db.ForeignKey('fish_species.id')
+    )
+
+    min_length = db.Column(
+        db.Float,
+        nullable = False
     )
 
     master_angler_species= db.relationship('FishSpecies', backref=db.backref('master_angler_reqs'))

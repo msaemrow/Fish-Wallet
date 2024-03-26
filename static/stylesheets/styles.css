@@ -1,0 +1,16 @@
+body{
+    background-color: bisque;
+}
+
+.form-top-div{
+    display: flex;
+    justify-content: center;
+}
+
+.form-second-div{
+    width:40%;
+}
+
+a{
+    margin: 5px 8px;
+}
